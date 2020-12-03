@@ -53,7 +53,7 @@ class Rotation:
         self.after_dmg_triggers = {}
         self.after_dmg_triggers.setdefault(self.auto.name, []).append(Trigger(Eagle(), 0.05))
         if char_state.t2:
-            self.after_dmg_triggers[self.auto.name].append(Trigger(Weakness(), 0.05))
+            self.after_dmg_triggers[self.auto.name].append(Trigger(Weakness(), 0.03))
         if len(trinket_groups) > 0:
             self.after_dmg_triggers[self.auto.name].append(FakeDeathTrigger())
 
