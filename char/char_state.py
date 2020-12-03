@@ -2,7 +2,7 @@ class CharState:
 
     def __init__(self, weapon, ap, crit, haste=1.15, t1=False, t2=True, t25=False, r12=False):
         self.weapon = weapon
-        self.ap = ap
+        self.ap = ap + 110
         self.crit = crit - 0.038
         self.__haste = haste
         self.t1 = t1

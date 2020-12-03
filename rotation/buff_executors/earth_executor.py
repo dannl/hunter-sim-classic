@@ -14,5 +14,5 @@ class EarthExecutor(Executor):
         trinkets = rotation.current_trinket
         if 'bugs' in trinkets:
             bugs = rotation.get_trinket('bugs')
-            return 0 < bugs.next_available - engine.current_priority() <= 3*60 - 20
+            return 0 < bugs.next_available - engine.current_priority() <= 3*60 - 10
         return True
