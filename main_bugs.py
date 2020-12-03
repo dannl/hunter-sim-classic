@@ -81,7 +81,8 @@ def run_at_time(bug, time, round=100):
 
 
 def main(bug, start=30, end=180, round=1000):
-    pool = ProcessPoolExecutor(max_workers=max(int(multiprocessing.cpu_count() / 2 - 1), 1))
+    # pool = ProcessPoolExecutor(max_workers=max(int(multiprocessing.cpu_count() / 2 - 1), 1))
+    pool = ProcessPoolExecutor(max_workers=10)
     futures = []
     for i in range(start, end):
         f = pool.submit(run_at_time, bug, i, round)
@@ -98,6 +99,7 @@ def main(bug, start=30, end=180, round=1000):
                     best = v
                     best_k = k
         it['最优'] = best_k
+        it['最优提升'] = best
         result_list.append(it)
         df = pd.DataFrame(result_list)
         name_map = {
