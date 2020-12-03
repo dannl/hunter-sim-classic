@@ -55,24 +55,15 @@ def loop(trinket_group, total_time=180, loop_round=1000):
     return key, total / (total_time * loop_round), max_dmg / total_time, min_dmg / total_time
 
 
-<<<<<<< HEAD
-def run_at_time(time, round=10000):
-=======
 def run_at_time(time, round=5000):
->>>>>>> init .
     start = datetime.now()
     item = {'time': time}
     k, base, max_dmg_base, min_dmg_base = loop([], time, round)
     item[k] = base
     # item[k + 'max'] = max_dmg_base
     # item[k + 'min'] = min_dmg_base
-<<<<<<< HEAD
-    for trinket_group in [[['black_hand']], [['zug']], [['earth']], [['sand_bug']], [['ap']],
-                          [['bugs']], [['dawn']], [['dragon_killer']], [['dragon_teeth']], [['spider']], [['warrior']]]:
-=======
     for trinket_group in [[['black_hand']], [['zug']], [['earth']], [['sand_bug']],
                           [['bugs']], [['dawn']], [['dragon_killer']], [['spider']], [['warrior']]]:
->>>>>>> init .
         k, d, max_dmg, min_dmg = loop(trinket_group, time, round)
         item[k] = d - base
         # item[k + 'delta'] = d - base
