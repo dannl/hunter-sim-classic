@@ -21,7 +21,7 @@ class Rapid(LastingBuff):
         trinkets = rotation.current_trinket
         if 'bugs' in trinkets:
             bugs = rotation.get_trinket('bugs')
-            if not (0 < bugs.next_available - engine.current_priority() < 3*60 - 14):
+            if not (0 < bugs.next_available - engine.current_priority() < 3*60 - 13):
                 return False
         if 'zug' in trinkets:
             zug = rotation.get_trinket('zug')
@@ -31,16 +31,16 @@ class Rapid(LastingBuff):
             sand_bugs = rotation.get_trinket('sand_bug')
             if not (0 < sand_bugs.next_available - engine.current_priority() < 2 * 60 - 4):
                 return False
-        triggers = rotation.after_dmg_triggers.get('auto')
-        fake_death = None
-        for t in triggers:
-            if t.buff.name == 'fake_death':
-                fake_death = t
-        if fake_death and fake_death.trigger_count == 0 and len(rotation.trinket_groups) > 0:
-            return False
-        if 'spider' in trinkets:
-            spider = rotation.get_trinket('spider')
-            spider.next_available = engine.current_priority() + 20
+        # triggers = rotation.after_dmg_triggers.get('auto')
+        # fake_death = None
+        # for t in triggers:
+        #     if t.buff.name == 'fake_death':
+        #         fake_death = t
+        # if fake_death and fake_death.trigger_count == 0 and len(rotation.trinket_groups) > 0:
+        #     return False
+        # if 'spider' in trinkets:
+        #     spider = rotation.get_trinket('spider')
+        #     spider.next_available = engine.current_priority() + 20
         rotation.statistics.add_start(self.name, engine.current_priority())
         self.perform(rotation,engine, char_state)
         return True

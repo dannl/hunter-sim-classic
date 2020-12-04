@@ -20,15 +20,7 @@ if not os.path.isdir('results/max_min'):
     os.makedirs('results/max_min')
 
 def run(trinket_group, total_time):
-    char_state = CharState(weapon.CJ, 2360, 0.383)
-    minus_armor = [505,640,505+640]
-    index = -1
-    for t in trinket_group:
-        for i in t:
-            if 'bugs' in i and i != 'bugs':
-                index = int(i[4:])
-    if index >= 0:
-        char_state.target_armor += minus_armor[index]
+    char_state = CharState(weapon.KL, 2360, 0.393)
     engine = Engine()
     statistics = Statistics()
     rotation = Rotation(char_state, engine, statistics, trinket_group)
@@ -66,13 +58,19 @@ def run_at_time(time, round=100):
     result = {'time': time}
     k, base, max_dmg_base, min_dmg_base = loop([], time, round)
     result[k] = base
-    available = ['black_hand','zug','earth','sand_bug','bugs', 'dawn','dragon_killer','spider','warrior']
+    # available = ['black_hand','zug','earth','sand_bug','bugs', 'dawn','dragon_killer','spider','warrior']
+    available = ['zug','bugs','dragon_killer','spider','warrior']
+    # available = ['dragon_killer','spider']
     groups = []
-    for item in available:
-        groups.append([[item]])
+    # for item in available:
+    #     groups.append([[item]])
     available = combinations(available, 2)
     for item in available:
         groups.append([list(item)])
+    # groups.append([['zug','warrior'],['dragon_killer','spider'], ['warrior','dawn']])
+    # groups.append([['dragon_killer','spider'], ['warrior','dawn']])
+    # groups.append([['warrior','spider'], ['warrior','dawn']])
+    # groups.append([['warrior','dragon_killer'], ['warrior','dawn']])
     for trinket_group in groups:
         k, d, max_dmg, min_dmg = loop(trinket_group, time, round)
         result[k] = d - base
@@ -81,8 +79,8 @@ def run_at_time(time, round=100):
 
 
 def main(start=30, end=180, round=1000):
-    # pool = ProcessPoolExecutor(max_workers=max(int(multiprocessing.cpu_count() / 2 - 1), 1))
-    pool = ProcessPoolExecutor(max_workers=10)
+    pool = ProcessPoolExecutor(max_workers=max(int(multiprocessing.cpu_count() / 2 - 1), 1))
+    # pool = ProcessPoolExecutor(max_workers=10)
     futures = []
     for i in range(start, end):
         f = pool.submit(run_at_time, i, round)
@@ -121,8 +119,8 @@ def main(start=30, end=180, round=1000):
 
 
 if __name__ == '__main__':
-    main(30, 180, 5000)
-    main_bugs.main('bugs0', 45, 180, 5000)
-    main_bugs.main('bugs1', 45, 180, 5000)
-    main_bugs.main('bugs2', 45, 180, 5000)
+    main(170, 171, 5000)
+    # main_bugs.main('bugs0', 30, 180, 5000)
+    # main_bugs.main('bugs1', 30, 180, 5000)
+    # main_bugs.main('bugs2', 30, 180, 5000)
 

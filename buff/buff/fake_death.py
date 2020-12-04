@@ -12,7 +12,7 @@ class FakeDeath(Buff):
         super().__init__('fake_death', 30)
 
     def perform(self, rotation, engine, char_state):
-        rotation.auto.next_available = config.FAKE_DEATH_DURATION + rotation.auto.calculate_next_available(engine.current_priority + config.FAKE_DEATH_DURATION, char_state)
+        rotation.auto.next_available = config.FAKE_DEATH_DURATION + rotation.auto.calculate_next_available(engine.current_priority() + config.FAKE_DEATH_DURATION, char_state)
         rotation.aim.next_available = max(config.FAKE_DEATH_DURATION + engine.current_priority(),
                                           rotation.aim.next_available)
         rotation.multi.next_available = max(config.FAKE_DEATH_DURATION + engine.current_priority(),
@@ -35,8 +35,8 @@ class FakeDeathTrigger:
     def trigger(self, rotation, engine, char_state):
         if self.buff.next_available > engine.current_priority():
             return False
-        if self.trigger_count > 0:
-            return False
+        # if self.trigger_count > 0:
+        #     return False
         if len(rotation.trinket_groups) <= 0:
             return False
         current_trinket = rotation.current_trinket

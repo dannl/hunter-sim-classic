@@ -6,6 +6,7 @@ class Engine:
     def __init__(self):
         self.__queue = []
         self.__current_prio = 0
+        self.total_count = 0
 
     def current_priority(self):
         return self.__current_prio
@@ -24,6 +25,7 @@ class Engine:
             _, event = heappop(self.__queue)
             self.set_current_priority(event)
             event.act()
+            self.total_count += 1
 
     def set_current_priority(self, event):
         if event.priority < self.__current_prio:

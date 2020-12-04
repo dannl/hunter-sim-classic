@@ -20,5 +20,5 @@ class Weapon:
 
 
 CJ = Weapon(124, 186, 3.4)
-
+KL = Weapon(128, 238, 3.2)
 SS = Weapon(89, 223, 2.7)

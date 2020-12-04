@@ -69,7 +69,8 @@ def run_at_time(bug, time, round=100):
     result[names.get_name(bug)] = base
     k, base, max_dmg_base, min_dmg_base = loop([[bug]], time, round, base=True)
     result[''] = base
-    available = ['black_hand','zug','earth','sand_bug','dawn','dragon_killer','spider','warrior']
+    # available = ['black_hand','zug','earth','sand_bug','dawn','dragon_killer','spider','warrior']
+    available = ['zug','dragon_killer','spider','warrior']
     groups = []
     for item in available:
         groups.append([[bug, item]])
@@ -94,7 +95,7 @@ def main(bug, start=30, end=180, round=1000):
         best = 0
         best_k = None
         for k,v in it.items():
-            if k != 'time' and k != '无' and k != '' and k != bug:
+            if k != 'time' and k != '无' and k != '' and k != names.get_name(bug):
                 if v > best:
                     best = v
                     best_k = k
@@ -121,6 +122,6 @@ def main(bug, start=30, end=180, round=1000):
 
 
 if __name__ == '__main__':
-    main('bugs0', 45, 180, 5000)
-    main('bugs1', 45, 180, 5000)
-    main('bugs2', 45, 180, 5000)
+    # main('bugs0', 45, 180, 5000)
+    # main('bugs1', 45, 180, 5000)
+    main('bugs2', 45, 46, 1)

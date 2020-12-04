@@ -41,15 +41,15 @@ class Rotation:
         self.aim = Aim()
         self.multi = Multi()
         self.rapid = Rapid()
-        self.available_trinket = self.setup_available_trinket()
         self.current_trinket = None
         self.trinket_groups = trinket_groups
+        self.before_dmg_triggers = {}
+        self.before_dmg_triggers.setdefault(self.auto.name, []).append(Trigger(self.rapid, 1))
+        self.available_trinket = self.setup_available_trinket()
         self.switch_next_trinket_group()
         self.executors.append(AutoExecutor(self.auto))
         self.executors.append(AimExecutor(self.aim))
         self.executors.append(MultiExecutor(self.multi))
-        self.before_dmg_triggers = {}
-        self.before_dmg_triggers.setdefault(self.auto.name, []).append(Trigger(self.rapid, 1))
         self.after_dmg_triggers = {}
         self.after_dmg_triggers.setdefault(self.auto.name, []).append(Trigger(Eagle(), 0.05))
         if char_state.t2:
@@ -80,7 +80,7 @@ class Rotation:
         add_item(LastingBuffExecutor, Warrior())
         add_item(EarthExecutor, DragonKiller())
         add_item(EarthExecutor, Earth())
-        add_item(SpiderExecutor, Spider())
+        # add_item(SpiderExecutor, Spider())
         add_item(BugsExecutor)
         add_item(SandBugExecutor)
         add_item(ZugExecutor)
@@ -93,6 +93,12 @@ class Rotation:
                 if executor:
                     executor.spell.dequip(self.engine, self.char_state)
                     executor.enabled = False
+                if trinket == 'spider':
+                    triggers = self.before_dmg_triggers.get(self.auto.name, [])
+                    for t in triggers:
+                        if t.buff.name == 'spider':
+                            t.buff.dequip(self.engine, self.char_state)
+
         if len(self.trinket_groups) > 0:
             self.current_trinket = self.trinket_groups.pop(0)
             for trinket in self.current_trinket:
@@ -101,6 +107,10 @@ class Rotation:
                 if executor:
                     executor.spell.equip(self.engine, self.char_state)
                     executor.enabled = True
+                if trinket == 'spider':
+                    spider = Spider()
+                    self.before_dmg_triggers.setdefault(self.auto.name, []).append(Trigger(spider, 1))
+                    spider.equip(self.engine, self.char_state)
         else:
             self.current_trinket = []
 
@@ -170,3 +180,10 @@ class Rotation:
 
     def update_trinket_next_available(self):
         pass
+
+    def another_trinket(self, trinket):
+        if self.current_trinket:
+            for item in self.current_trinket:
+                if item != trinket:
+                    return trinket
+        return None
